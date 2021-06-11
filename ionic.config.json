@@ -1,0 +1,7 @@
+{
+  "name": "mayasoft-test",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
