@@ -9,20 +9,26 @@
 <ion-content [fullscreen]="true">
 
 
-  <div *ngFor="let item of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">
-    <ion-card routerLink="/events/{{ item }}">
+  <div *ngFor="let instructor of database.instructors">
+    <ion-card routerLink="/events/{{ instructor.id }}">
       <ion-card-header>
         <ion-row style="margin: 0px;">
           <ion-col>
-            <ion-card-title>Luis Vega</ion-card-title>
+            <ion-card-title>{{ instructor.fullName }}</ion-card-title>
           </ion-col>
           <ion-col class="ion-text-right" style="white-space:nowrap;">
-            <ion-card-title color="primary">{{ "1991-06-28" | date: 'd.MM.yyyy' }}</ion-card-title>
+            <ion-card-title color="primary">{{ instructor.birthDay | date: 'd.MM.yyyy' }}</ion-card-title>
           </ion-col>
         </ion-row>
 
       </ion-card-header>
     </ion-card>
   </div>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="handleClick()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>
