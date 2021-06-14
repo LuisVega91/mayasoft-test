@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { IonList, ModalController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, IonList, ModalController } from '@ionic/angular';
 import { EventsDB } from 'src/app/DataStructure/DB/EventsDB';
 import { InstructorsDB } from 'src/app/DataStructure/DB/InstructorsDB';
 import { Event } from 'src/app/DataStructure/Models/Event';
@@ -20,13 +20,18 @@ export class EventsPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private router: Router,
+    private alertController: AlertController,
   ) {}
 
   ngOnInit() {
     this.instructorId = this.route.snapshot.paramMap.get('instructorId');
-    console.log(this.eventsDB.getEvents(this.instructorId));
-    this.eventsDB.getEvents(this.instructorId);
+    if (InstructorsDB.getInstance().instructorExist(this.instructorId)){
+      this.eventsDB.getEvents(this.instructorId);
+    }else{
+      this.presentAlert();
+    }
   }
 
   addEvent() {
@@ -69,5 +74,20 @@ export class EventsPage implements OnInit {
     });
     await modal.present();
     this.eventList.closeSlidingItems();
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: `the instructor with id: ${this.instructorId} don't exist, you will be redirect to instructors Page`,
+      buttons: ['OK'],
+      backdropDismiss: false,
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
+
+    this.router.navigateByUrl('instructors');
   }
 }

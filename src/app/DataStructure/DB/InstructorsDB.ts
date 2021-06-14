@@ -34,4 +34,8 @@ export class InstructorsDB {
     this.removeInstructor(instructor.id);
     this.addInstructor(instructor);
   }
+
+  public instructorExist(id: string) {
+    return this.getInstructors().filter((i) => i.id === id).length > 0;
+  }
 }

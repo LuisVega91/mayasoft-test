@@ -3,6 +3,7 @@ import { uid } from 'uid';
 
 export type EventType = 'theorical' | 'seminar' | 'project';
 
+export const EVENTS_TYPES = ['theorical' , 'seminar' , 'project'];
 export interface IEvent {
   type?: EventType;
   date?: Date;
