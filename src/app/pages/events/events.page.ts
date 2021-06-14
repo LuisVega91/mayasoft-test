@@ -4,6 +4,7 @@ import { AlertController, IonList, ModalController } from '@ionic/angular';
 import { EventsDB } from 'src/app/DataStructure/DB/EventsDB';
 import { InstructorsDB } from 'src/app/DataStructure/DB/InstructorsDB';
 import { Event } from 'src/app/DataStructure/Models/Event';
+import { Time } from 'src/app/DataStructure/Models/Time';
 import { EventFormComponent } from './form/event-form/event-form.component';
 
 @Component({
@@ -39,14 +40,14 @@ export class EventsPage implements OnInit {
       new Event({
         type: 'theorical',
         date: new Date(),
-        start: {
+        start: new Time({
           hours: 12,
           minutes: 2,
-        },
-        end: {
+        }),
+        end: new Time({
           hours: 12,
           minutes: 2,
-        },
+        }),
         description: '2143',
         instructorId: this.instructorId,
       })
@@ -59,8 +60,8 @@ export class EventsPage implements OnInit {
     this.eventList.closeSlidingItems();
   }
 
-  editEvent() {
-    this.showForm();
+  editEvent(event: Event) {
+    this.showForm(event);
     this.eventList.closeSlidingItems();
   }
 
@@ -86,7 +87,7 @@ export class EventsPage implements OnInit {
 
     await alert.present();
 
-    const { role } = await alert.onDidDismiss();
+    await alert.onDidDismiss();
 
     this.router.navigateByUrl('instructors');
   }

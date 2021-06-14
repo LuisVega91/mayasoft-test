@@ -1,9 +1,12 @@
-import { Time } from '@angular/common';
+
 import { uid } from 'uid';
+import { Time } from './Time';
 
 export type EventType = 'theorical' | 'seminar' | 'project';
 
-export const EVENTS_TYPES = ['theorical' , 'seminar' , 'project'];
+export const EVENTS_TYPES = ['theorical', 'seminar', 'project'];
+
+
 export interface IEvent {
   type?: EventType;
   date?: Date;
@@ -25,14 +28,13 @@ export class Event implements IEvent {
 
   constructor(event: IEvent) {
     this.type = event.type;
-    this.date = event.date;
-    this.start = event.start;
-    this.end = event.end;
+    this.date = new Date(event.date);
+    this.start = new Time(event.start);
+    this.end = new Time(event.end);
     this.description = event.description;
     this.instructorId = event.instructorId;
-    if(event.id){
+    if (event.id) {
       this.id = event.id;
     }
   }
-
 }
