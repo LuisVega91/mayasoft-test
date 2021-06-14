@@ -19,8 +19,6 @@ export class EventFormComponent implements OnInit {
     this.modalController.dismiss();
   }
 
-  //TODO: save instructors and events on localsetorage
-
   //TODO: build the form events
   //TODO: fix the CRUD events
   //TODO: fix factorys events

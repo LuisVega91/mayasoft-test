@@ -12,13 +12,13 @@ export class EventsDB {
     if (!EventsDB.instance) {
       EventsDB.instance = new EventsDB();
     }
-
     return EventsDB.instance;
   }
 
   public getEvents(instructorId?: string): Event[] {
     if (this.events.length === 0) {
-      this.events = eventsSampleData;
+      this.events = this.getFromLocalStorage() || eventsSampleData;
+      this.saveToLocalStorage();
     }
 
     if (instructorId) {
@@ -31,11 +31,13 @@ export class EventsDB {
   public addEvent(event: Event): void {
     this.events = this.events.concat(event);
     this.updateEventsByInstructor(event.instructorId);
+    this.saveToLocalStorage();
   }
 
   public removeEvent(event: Event): void {
     this.events = this.events.filter((e) => e.id !== event.id);
     this.updateEventsByInstructor(event.instructorId);
+    this.saveToLocalStorage();
   }
 
   public setEvent(event: Event): void {
@@ -48,5 +50,17 @@ export class EventsDB {
     this.eventsByInstructor = this.events.filter(
       (el) => el.instructorId === instructorId
     );
+  }
+
+  private getFromLocalStorage(): Event[]{
+    const events = localStorage.getItem('events');
+    if (events) {
+      return JSON.parse(events).map((e) => new Event(e));
+    }
+    return null;
+  }
+
+  private saveToLocalStorage(){
+    localStorage.setItem('events', JSON.stringify(this.events));
   }
 }

@@ -11,6 +11,7 @@ export interface IEvent {
   end?: Time;
   description?: string;
   instructorId: string;
+  id?: string;
 }
 
 export class Event implements IEvent {
@@ -29,6 +30,9 @@ export class Event implements IEvent {
     this.end = event.end;
     this.description = event.description;
     this.instructorId = event.instructorId;
+    if(event.id){
+      this.id = event.id;
+    }
   }
 
 }
