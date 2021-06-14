@@ -7,28 +7,33 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item *ngFor="let instructor of instructorsDB.getInstructors()" lines="none">
+      <div class="w-100">
+        <ion-card routerLink="/events/{{ instructor.id }}" class="my-10 mx-4">
+          <ion-card-header>
+            <ion-row>
+              <ion-col class="no-line-breaks">
+                <ion-card-title>{{ instructor.fullName }}</ion-card-title>
+              </ion-col>
+              <ion-col class="ion-text-right no-line-breaks">
+                <ion-card-title color="primary">{{ instructor.birthDay | date: 'd.MM.yyyy' }}</ion-card-title>
+              </ion-col>
+            </ion-row>
+
+          </ion-card-header>
+        </ion-card>
+      </div>
+    </ion-item>
+  </ion-list>
 
 
-  <div *ngFor="let instructor of database.instructors">
-    <ion-card routerLink="/events/{{ instructor.id }}">
-      <ion-card-header>
-        <ion-row style="margin: 0px;">
-          <ion-col>
-            <ion-card-title>{{ instructor.fullName }}</ion-card-title>
-          </ion-col>
-          <ion-col class="ion-text-right" style="white-space:nowrap;">
-            <ion-card-title color="primary">{{ instructor.birthDay | date: 'd.MM.yyyy' }}</ion-card-title>
-          </ion-col>
-        </ion-row>
 
-      </ion-card-header>
-    </ion-card>
-  </div>
-
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="handleClick()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
 </ion-content>
+

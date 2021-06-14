@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DataBase } from 'src/app/Models/DataBase';
-import { Instructor } from 'src/app/Models/Instructor';
+import { InstructorsDB } from 'src/app/DataStructure/DB/InstructorsDB';
+import { Instructor } from 'src/app/DataStructure/Models/Instructor';
 
 @Component({
   selector: 'app-instructors',
@@ -9,21 +9,20 @@ import { Instructor } from 'src/app/Models/Instructor';
 })
 export class InstructorsPage implements OnInit {
 
-  database = DataBase.getInstance();
-  instructors: Instructor[] = [];
+  instructorsDB = InstructorsDB.getInstance();
+  // instructors: Instructor[] = [];
 
   constructor() { }
 
   ngOnInit() {
-    this.instructors = this.database.getInstructors();
+    // this.instructors = this.instructorsDB.getInstructors();
   }
 
   handleClick(){
-    this.database.addInstructor(new Instructor({
+    this.instructorsDB.addInstructor(new Instructor({
       firstName: 'Emanuel',
       lastName: 'Martinez',
       birthDay: new Date('2018-09-21'),
-      appointments: []
     }));
   }
 

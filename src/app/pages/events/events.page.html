@@ -14,48 +14,68 @@
 
 <ion-content>
 
-  <ion-card>
+  <ion-list>
+    <ion-item *ngFor="let event of eventsDB.events" lines="none">
+      <div class="w-100">
+        <ion-card class="m-4">
+          <ion-card-header>
+            <ion-card-title color="primary">
+              {{ event.date | date:'EEEE, d' }}
+            </ion-card-title>
 
-    <ion-card-header>
-      <ion-card-title color="primary">Thusday, 10</ion-card-title>
-
-      <ion-row>
-        <ion-col size="6">
-          <ion-row>
-            <ion-col size="6" class="blue-lable">
-              <ion-card-title color="light">
-                Start
-              </ion-card-title>
-            </ion-col>
-            <ion-col size="6" class="out-line-label">
-              <ion-card-title>
-                8:00
-              </ion-card-title>
-            </ion-col>
-          </ion-row>
-        </ion-col>
-        <ion-col size="6">
-          <ion-row>
-            <ion-col size="6" class="blue-lable">
-              <ion-card-title color="light">
-                End
-              </ion-card-title>
-            </ion-col>
-            <ion-col size="6" class="out-line-label">
-              <ion-card-title>
-                8:00
-              </ion-card-title>
-            </ion-col>
-          </ion-row>
-        </ion-col>
-      </ion-row>
-    </ion-card-header>
+            <ion-row>
+              <ion-col size="6" class="m-0">
+                <ion-row>
+                  <ion-col size="6" class="blue-lable no-line-breaks">
+                    <ion-card-title color="light">
+                      Start
+                    </ion-card-title>
+                  </ion-col>
+                  <ion-col size="6" class="out-line-label no-line-breaks">
+                    <ion-card-title>
+                      {{ event.start | time }}
+                    </ion-card-title>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+              <ion-col size="6">
+                <ion-row>
+                  <ion-col size="6" class="blue-lable no-line-breaks">
+                    <ion-card-title color="light">
+                      End
+                    </ion-card-title>
+                  </ion-col>
+                  <ion-col size="6" class="out-line-label no-line-breaks">
+                    <ion-card-title>
+                      {{ event.end | time }}
+                    </ion-card-title>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-card-header>
 
 
 
-    <ion-card-content>
-      <ion-card-title>Theoretial Class</ion-card-title>
-      Yue are going to learn about the main airplane instruments and the uses o e....
-    </ion-card-content>
-  </ion-card>
+          <ion-card-content>
+            <ion-card-title>
+              {{ event.type }}
+            </ion-card-title>
+            {{ event.description }}
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-item>
+  </ion-list>
+
+
+
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="handleClick()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
 </ion-content>

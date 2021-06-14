@@ -1,18 +1,18 @@
-import { instructorsSampleData } from '../factories/data';
-import { IInstructor, Instructor } from './Instructor';
+import { instructorsSampleData } from '../Factories/Instructors';
+import { IInstructor, Instructor } from '../Models/Instructor';
 
-export class DataBase {
-  private static instance: DataBase;
+export class InstructorsDB {
+  private static instance: InstructorsDB;
   public instructors: Instructor[] = [];
 
   private constructor() {}
 
-  public static getInstance(): DataBase {
-    if (!DataBase.instance) {
-      DataBase.instance = new DataBase();
+  public static getInstance(): InstructorsDB {
+    if (!InstructorsDB.instance) {
+      InstructorsDB.instance = new InstructorsDB();
     }
 
-    return DataBase.instance;
+    return InstructorsDB.instance;
   }
 
   public getInstructors(): Instructor[] {

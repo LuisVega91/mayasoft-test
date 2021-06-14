@@ -24,3 +24,29 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+.no-line-breaks{
+  white-space:nowrap !important;
+}
+
+.m-4{
+  margin: 4px !important;
+}
+
+.my-10{
+  margin-block: 10px !important;
+}
+
+.mx-4{
+  margin-inline: 4px !important;
+}
+
+.w-100{
+  width: 100% !important;
+}
+
+ion-card-title{
+  font-size: 1rem !important;
+}
+
