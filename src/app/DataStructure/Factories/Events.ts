@@ -1,10 +1,12 @@
+import { InstructorsDB } from '../DB/InstructorsDB';
 import { IEvent, Event, EventType } from '../Models/Event';
+import { IInstructor, Instructor } from '../Models/Instructor';
 
-const data = [1, 2, 3, 4, 5];
+const seed = [1, 2, 3, 4, 5];
 
-const eventBuilder = (id: number): IEvent => ({
-  date: new Date(id),
-  description: 'sdfsdf',
+const eventBuilder = (type: EventType, instructor: Instructor): IEvent => ({
+  date: new Date(),
+  description: `${type} by ${instructor.fullName}`,
   start: {
     hours: 2,
     minutes: 3,
@@ -13,9 +15,16 @@ const eventBuilder = (id: number): IEvent => ({
     hours: 2,
     minutes: 3,
   },
-  type: 'theorical',
+  type,
+  instructorId: instructor.id,
 });
 
-export const eventsSampleData: Event[] = data.map(
-  (el) => new Event(eventBuilder(el))
-);
+const instructors = InstructorsDB.getInstance().getInstructors();
+
+export let eventsSampleData: Event[] = [];
+
+instructors.forEach(instructor => {
+  eventsSampleData = eventsSampleData.concat(seed.map((el) => new Event(eventBuilder('seminar', instructor))));
+});
+
+

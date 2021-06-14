@@ -8,6 +8,7 @@ export interface IEvent {
   start: Time;
   end: Time;
   description: string;
+  instructorId: number;
 }
 
 export class Event implements IEvent {
@@ -17,6 +18,7 @@ export class Event implements IEvent {
   start: Time;
   end: Time;
   description: string;
+  instructorId: number;
 
   constructor(event: IEvent) {
     this.type = event.type;

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { EventsDB } from 'src/app/DataStructure/DB/eventsDB';
+import { InstructorsDB } from 'src/app/DataStructure/DB/InstructorsDB';
 import { Event } from 'src/app/DataStructure/Models/Event';
 
 @Component({
@@ -11,10 +13,12 @@ export class EventsPage implements OnInit {
   eventsDB = EventsDB.getInstance();
   events: Event[] = [];
 
-  constructor() {}
+  constructor(private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
-    this.events = this.eventsDB.getEvents();
+    const id = this.route.snapshot.paramMap.get('id');
+    this.events = this.eventsDB.getEvents(Number(id));
   }
 
   handleClick() {
@@ -31,6 +35,7 @@ export class EventsPage implements OnInit {
           minutes: 2
         },
         description: '2143',
+        instructorId: InstructorsDB.getInstance().getInstructors()[0].id,
       })
     );
   }

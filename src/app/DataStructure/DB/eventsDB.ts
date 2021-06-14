@@ -15,11 +15,12 @@ export class EventsDB {
     return EventsDB.instance;
   }
 
-  public getEvents(): Event[] {
+  public getEvents(instructorId: number): Event[] {
     if (this.events.length === 0) {
       this.events = eventsSampleData;
     }
-    return this.events;
+    console.log(this.events.filter(el => el.instructorId !== instructorId));
+    return this.events.filter(el => el.instructorId !== instructorId);
   }
 
   public addEvent(event: Event): void {
