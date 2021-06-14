@@ -1,5 +1,5 @@
-import { instructorsSampleData } from '../Factories/Instructors';
-import { IInstructor, Instructor } from '../Models/Instructor';
+import { instructorsSampleData } from '../Factories/InstructorsFactory';
+import { Instructor } from '../Models/Instructor';
 
 export class InstructorsDB {
   private static instance: InstructorsDB;
@@ -26,7 +26,7 @@ export class InstructorsDB {
     this.instructors = this.instructors.concat(instructor);
   }
 
-  public removeInstructor(id: number): void {
+  public removeInstructor(id: string): void {
     this.instructors = this.instructors.filter((i) => i.id !== id);
   }
 

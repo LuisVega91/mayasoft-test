@@ -7,7 +7,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/instructors/instructors.module').then( m => m.InstructorsPageModule)
   },
   {
-    path: 'events/:id',
+    path: 'events/:instructorId',
     loadChildren: () => import('./pages/events/events.module').then( m => m.EventsPageModule)
   },
   {

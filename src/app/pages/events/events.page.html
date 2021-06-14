@@ -6,7 +6,7 @@
       <ion-back-button defaultHref="instructors"></ion-back-button>
     </ion-buttons>
 
-    <ion-title>Events - June</ion-title>
+    <ion-title>Events - {{ currentDate | date:'MMMM' }}</ion-title>
 
   </ion-toolbar>
 
@@ -14,65 +14,87 @@
 
 <ion-content>
 
-  <ion-list>
-    <ion-item *ngFor="let event of eventsDB.events" lines="none">
-      <div class="w-100">
-        <ion-card class="m-4">
-          <ion-card-header>
-            <ion-card-title color="primary">
-              {{ event.date | date:'EEEE, d' }}
-            </ion-card-title>
 
-            <ion-row>
-              <ion-col size="6" class="m-0">
-                <ion-row>
-                  <ion-col size="6" class="blue-lable no-line-breaks">
-                    <ion-card-title color="light">
-                      Start
-                    </ion-card-title>
-                  </ion-col>
-                  <ion-col size="6" class="out-line-label no-line-breaks">
-                    <ion-card-title>
-                      {{ event.start | time }}
-                    </ion-card-title>
-                  </ion-col>
-                </ion-row>
-              </ion-col>
-              <ion-col size="6">
-                <ion-row>
-                  <ion-col size="6" class="blue-lable no-line-breaks">
-                    <ion-card-title color="light">
-                      End
-                    </ion-card-title>
-                  </ion-col>
-                  <ion-col size="6" class="out-line-label no-line-breaks">
-                    <ion-card-title>
-                      {{ event.end | time }}
-                    </ion-card-title>
-                  </ion-col>
-                </ion-row>
-              </ion-col>
-            </ion-row>
-          </ion-card-header>
+  <ion-list #eventList>
+
+    <ion-item-sliding *ngFor="let event of eventsDB.eventsByInstructor">
 
 
+      <ion-item-options side="start">
+        <ion-item-option (click)="editEvent()" color="success">
+          <ion-icon slot="icon-only" name="pencil"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
 
-          <ion-card-content>
-            <ion-card-title>
-              {{ event.type }}
-            </ion-card-title>
-            {{ event.description }}
-          </ion-card-content>
-        </ion-card>
-      </div>
-    </ion-item>
+      <ion-item lines="none">
+        <div class="w-100">
+          <ion-card class="m-4">
+            <ion-card-header>
+              <ion-card-title color="primary">
+                {{ event.date | date:'EEEE, d' }}
+              </ion-card-title>
+
+              <ion-row>
+                <ion-col size="6" class="m-0">
+                  <ion-row>
+                    <ion-col size="6" class="blue-lable no-line-breaks">
+                      <ion-card-title color="light">
+                        Start
+                      </ion-card-title>
+                    </ion-col>
+                    <ion-col size="6" class="out-line-label no-line-breaks">
+                      <ion-card-title>
+                        {{ event.start | time }}
+                      </ion-card-title>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-row>
+                    <ion-col size="6" class="blue-lable no-line-breaks">
+                      <ion-card-title color="light">
+                        End
+                      </ion-card-title>
+                    </ion-col>
+                    <ion-col size="6" class="out-line-label no-line-breaks">
+                      <ion-card-title>
+                        {{ event.end | time }}
+                      </ion-card-title>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-card-header>
+
+
+            <ion-card-content>
+              <ion-card-title>
+                {{ event.type }}
+              </ion-card-title>
+              {{ event.description }}
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option (click)="deleteEvent(event)" color="danger">
+          <ion-icon slot="icon-only" name="trash-bin"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+
+
+    </ion-item-sliding>
+
+
+
   </ion-list>
 
 
 
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="handleClick()">
+    <ion-fab-button (click)="addEvent()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

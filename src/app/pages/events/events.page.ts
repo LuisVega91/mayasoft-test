@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EventsDB } from 'src/app/DataStructure/DB/eventsDB';
+import { IonList, ModalController } from '@ionic/angular';
+import { EventsDB } from 'src/app/DataStructure/DB/EventsDB';
 import { InstructorsDB } from 'src/app/DataStructure/DB/InstructorsDB';
 import { Event } from 'src/app/DataStructure/Models/Event';
+import { EventFormComponent } from './form/event-form/event-form.component';
 
 @Component({
   selector: 'app-events',
@@ -10,33 +12,62 @@ import { Event } from 'src/app/DataStructure/Models/Event';
   styleUrls: ['./events.page.scss'],
 })
 export class EventsPage implements OnInit {
-  eventsDB = EventsDB.getInstance();
-  events: Event[] = [];
+  @ViewChild('eventList') eventList: IonList;
 
-  constructor(private route: ActivatedRoute) {
-  }
+  eventsDB = EventsDB.getInstance();
+  instructorId: string = null;
+  currentDate = new Date();
+
+  constructor(
+    private route: ActivatedRoute,
+    private modalController: ModalController
+  ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.events = this.eventsDB.getEvents(Number(id));
+    this.instructorId = this.route.snapshot.paramMap.get('instructorId');
+    console.log(this.eventsDB.getEvents(this.instructorId));
+    this.eventsDB.getEvents(this.instructorId);
   }
 
-  handleClick() {
+  addEvent() {
     this.eventsDB.addEvent(
       new Event({
         type: 'theorical',
         date: new Date(),
         start: {
           hours: 12,
-          minutes: 2
+          minutes: 2,
         },
         end: {
           hours: 12,
-          minutes: 2
+          minutes: 2,
         },
         description: '2143',
-        instructorId: InstructorsDB.getInstance().getInstructors()[0].id,
+        instructorId: this.instructorId,
       })
     );
+    this.eventList.closeSlidingItems();
+  }
+
+  deleteEvent(event: Event) {
+    this.eventsDB.removeEvent(event);
+    this.eventList.closeSlidingItems();
+  }
+
+  editEvent() {
+    this.showForm();
+    this.eventList.closeSlidingItems();
+  }
+
+  async showForm(event: Event = new Event({instructorId:this.instructorId})){
+    const modal = await this.modalController.create({
+      component: EventFormComponent,
+      backdropDismiss: false,
+      componentProps:{
+        event,
+      }
+    });
+    await modal.present();
+    this.eventList.closeSlidingItems();
   }
 }

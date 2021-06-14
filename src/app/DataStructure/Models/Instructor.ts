@@ -1,3 +1,4 @@
+import { uid } from 'uid';
 
 export interface IInstructor {
   firstName: string;
@@ -6,7 +7,7 @@ export interface IInstructor {
 }
 
 export class Instructor implements IInstructor{
-  id: number = Date.now();
+  id: string = uid();
   firstName: string;
   lastName: string;
   birthDay: Date;
