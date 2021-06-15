@@ -43,4 +43,8 @@ export class Event implements IEvent {
   get dateToString(){
     return this.date.toISOString().split('T')[0];
   }
+
+  get toString(){
+    return `${this.date.toString()} ${this.type} ${this.description} start ${this.start.toString} - end ${this.end.toString}`;
+  }
 }

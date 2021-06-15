@@ -47,7 +47,10 @@
         <ion-label position="floating">start</ion-label>
         <ion-input type="time" formControlName="start"></ion-input>
         <ion-note *ngIf="formulario.get('start').hasError('hasOverloadEvents')" color="danger">
-          Has Overloads Events Width {{ eventsDB.overloadsEvents | json }}
+          Has Overloads Events Width:
+          <div *ngFor="let overloadEvent of eventsDB.overloadsEvents">
+            {{ overloadEvent.toString }} <br>
+          </div>
         </ion-note>
       </ion-item>
 
