@@ -1,10 +1,11 @@
 import { eventsSampleData } from '../Factories/EventsFactory';
-import { Event } from '../Models/Event';
+import { Event, EventType, IEvent } from '../Models/Event';
 
 export class EventsDB {
   private static instance: EventsDB;
   public events: Event[] = [];
   public eventsByInstructor: Event[] = [];
+  public overloadsEvents: Event[] = [];
 
   private constructor() {}
 
@@ -46,13 +47,33 @@ export class EventsDB {
     this.updateEventsByInstructor(event.instructorId);
   }
 
+  public getOverloadsEvents(event: IEvent): Event[] {
+    const eventModel: Event = new Event(event);
+    console.log(eventModel);
+    this.overloadsEvents = this.events
+      .filter((el)=> el.id !== eventModel.id )
+      .filter((el) => el.type === eventModel.type)
+      .filter((el) => el.dateToString === eventModel.dateToString)
+      .filter((el) =>
+          !((
+            eventModel.start.toMinutes < el.start.toMinutes &&
+            eventModel.end.toMinutes < el.start.toMinutes
+          ) || (
+            eventModel.start.toMinutes > el.end.toMinutes &&
+            eventModel.end.toMinutes > el.end.toMinutes
+          ))
+      )
+      ;
+    return this.overloadsEvents;
+  }
+
   private updateEventsByInstructor(instructorId: string) {
     this.eventsByInstructor = this.events.filter(
       (el) => el.instructorId === instructorId
     );
   }
 
-  private getFromLocalStorage(): Event[]{
+  private getFromLocalStorage(): Event[] {
     const events = localStorage.getItem('events');
     if (events) {
       return JSON.parse(events).map((e) => new Event(e));
@@ -60,7 +81,7 @@ export class EventsDB {
     return null;
   }
 
-  private saveToLocalStorage(){
+  private saveToLocalStorage() {
     localStorage.setItem('events', JSON.stringify(this.events));
   }
 }

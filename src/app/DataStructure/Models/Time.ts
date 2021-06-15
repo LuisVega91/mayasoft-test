@@ -10,12 +10,18 @@ export class Time implements ITime {
       this.hours = Number(timeArray[0]);
       this.minutes = Number(timeArray[1]);
     } else {
-      this.hours = time.hours;
-      this.minutes = time.minutes;
+      this.hours = time?.hours || 0;
+      this.minutes = time?.minutes || 0;
     }
   }
 
-  get toString() {
-    return `${this.hours<10?'0':''}${this.hours}:${this.minutes<10?'0':''}${this.minutes}`;
+  get toString(): string {
+    return `${this.hours < 10 ? '0' : ''}${this.hours || 0}:${
+      this.minutes < 10 ? '0' : ''
+    }${this.minutes || 0}`;
+  }
+
+  get toMinutes(): number{
+    return (this.hours * 60) + this.minutes;
   }
 }

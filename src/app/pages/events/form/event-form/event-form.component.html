@@ -17,13 +17,6 @@
 
 <ion-content>
 
-  <!--
-
-
-
-
-
- -->
   <form autocomplete="off" [formGroup]="formulario" (ngSubmit)="save()">
 
     <input type="hidden" formControlName="id">
@@ -46,18 +39,27 @@
 
 
       <ion-item>
-        <ion-label position="floating">date</ion-label>
+        <ion-label position="stacked">date</ion-label>
         <ion-input type="date" formControlName="date"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">start</ion-label>
-        <ion-input type="time" value="150" formControlName="start"></ion-input>
+        <ion-input type="time" formControlName="start"></ion-input>
+        <ion-note *ngIf="formulario.get('start').hasError('hasOverloadEvents')" color="danger">
+          Has Overloads Events Width {{ eventsDB.overloadsEvents | json }}
+        </ion-note>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">end</ion-label>
         <ion-input type="time" formControlName="end"></ion-input>
+        <ion-note *ngIf="formulario.get('end').hasError('isGreaterThanStart')" color="danger">
+          The end cannot be greater than the beginning
+        </ion-note>
+        <ion-note *ngIf="formulario.get('end').hasError('isEqualThanStart')" color="danger">
+          The beginning and the end cannot be the same
+        </ion-note>
       </ion-item>
 
       <div class="ion-text-center">

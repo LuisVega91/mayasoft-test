@@ -4,7 +4,6 @@ import { AlertController, IonList, ModalController } from '@ionic/angular';
 import { EventsDB } from 'src/app/DataStructure/DB/EventsDB';
 import { InstructorsDB } from 'src/app/DataStructure/DB/InstructorsDB';
 import { Event } from 'src/app/DataStructure/Models/Event';
-import { Time } from 'src/app/DataStructure/Models/Time';
 import { EventFormComponent } from './form/event-form/event-form.component';
 
 @Component({
@@ -36,23 +35,8 @@ export class EventsPage implements OnInit {
   }
 
   addEvent() {
-    this.eventsDB.addEvent(
-      new Event({
-        type: 'theorical',
-        date: new Date(),
-        start: new Time({
-          hours: 12,
-          minutes: 2,
-        }),
-        end: new Time({
-          hours: 12,
-          minutes: 2,
-        }),
-        description: '2143',
-        instructorId: this.instructorId,
-      })
-    );
     this.eventList.closeSlidingItems();
+    this.showForm('addEvent');
   }
 
   deleteEvent(event: Event) {
@@ -61,11 +45,12 @@ export class EventsPage implements OnInit {
   }
 
   editEvent(event: Event) {
-    this.showForm(event);
     this.eventList.closeSlidingItems();
+    this.showForm('setEvent', event);
   }
 
   async showForm(
+    dbAction: 'setEvent' | 'addEvent',
     event: Event = new Event({ instructorId: this.instructorId })
   ) {
     const modal = await this.modalController.create({
@@ -76,9 +61,19 @@ export class EventsPage implements OnInit {
       },
     });
     await modal.present();
+
     let eventEdited: Event = (await modal.onDidDismiss()).data;
-    if(eventEdited){
-      eventEdited = new Event(eventEdited);
+
+    if (!eventEdited) {
+      return null;
+    }
+
+    eventEdited = new Event(eventEdited);
+
+    if (dbAction === 'addEvent') {
+      this.eventsDB.addEvent(eventEdited);
+    }
+    if (dbAction === 'setEvent') {
       this.eventsDB.setEvent(eventEdited);
     }
   }

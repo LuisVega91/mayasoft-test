@@ -1,11 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
-import {
-  Event,
-  EVENTS_TYPES,
-  IEvent,
-} from 'src/app/DataStructure/Models/Event';
+import { EventsDB } from 'src/app/DataStructure/DB/EventsDB';
+import { Event, EVENTS_TYPES } from 'src/app/DataStructure/Models/Event';
+import { CustomValidations } from 'src/app/shared/validators/custom-validation';
 
 @Component({
   selector: 'app-event-form',
@@ -14,6 +12,8 @@ import {
 })
 export class EventFormComponent implements OnInit {
   @Input() event: Event;
+
+  eventsDB = EventsDB.getInstance();
 
   eventTypes = EVENTS_TYPES;
   formulario: FormGroup;
@@ -27,15 +27,23 @@ export class EventFormComponent implements OnInit {
   }
 
   buildFrom() {
-    this.formulario = this.fb.group({
-      type: [this.event.type, Validators.required],
-      date: [this.parseDate(this.event.date), Validators.required],
-      start: [this.event.start.toString, Validators.required],
-      end: [this.event.end.toString, Validators.required],
-      description: [this.event.description, Validators.required],
-      instructorId: [this.event.instructorId, Validators.required],
-      id: [this.event.id, Validators.required],
-    });
+    this.formulario = this.fb.group(
+      {
+        type: [this.event.type, Validators.required],
+        date: [this.event.dateToString, Validators.required],
+        start: [this.event.start.toString, Validators.required],
+        end: [this.event.end.toString, Validators.required],
+        description: [this.event.description, Validators.required],
+        instructorId: [this.event.instructorId, Validators.required],
+        id: [this.event.id, Validators.required],
+      },
+      {
+        validators: [
+          CustomValidations.endLessThanStart('start', 'end'),
+          CustomValidations.overloadEvents('id','start','end','type', 'date', this.event.instructorId),
+        ],
+      }
+    );
   }
 
   dismiss() {
@@ -51,5 +59,4 @@ export class EventFormComponent implements OnInit {
   }
 
   //TODO: fix factorys events
-  //TODO: make function for validat no overload events that have the same type
 }
