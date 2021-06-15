@@ -17,7 +17,7 @@
 
 <ion-content>
 
-<!--
+  <!--
 
 
 
@@ -32,13 +32,18 @@
     <ion-list>
       <ion-item>
         <ion-label position="floating">Description</ion-label>
-        <ion-input formControlName="description"></ion-input>
+        <ion-textarea formControlName="description"></ion-textarea>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">type</ion-label>
-        <ion-input formControlName="type"></ion-input>
+        <ion-label position="floating">Type</ion-label>
+        <ion-select placeholder="Escoja una opcion" formControlName="type">
+          <ion-select-option *ngFor="let eventType of eventTypes" [value]="eventType">
+            {{ eventType }}
+          </ion-select-option>
+        </ion-select>
       </ion-item>
+
 
       <ion-item>
         <ion-label position="floating">date</ion-label>
@@ -47,7 +52,7 @@
 
       <ion-item>
         <ion-label position="floating">start</ion-label>
-        <ion-input type="time" formControlName="start"></ion-input>
+        <ion-input type="time" value="150" formControlName="start"></ion-input>
       </ion-item>
 
       <ion-item>

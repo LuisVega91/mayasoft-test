@@ -1,7 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController } from '@ionic/angular';
-import { Event, IEvent } from 'src/app/DataStructure/Models/Event';
+import {
+  Event,
+  EVENTS_TYPES,
+  IEvent,
+} from 'src/app/DataStructure/Models/Event';
 
 @Component({
   selector: 'app-event-form',
@@ -11,6 +15,7 @@ import { Event, IEvent } from 'src/app/DataStructure/Models/Event';
 export class EventFormComponent implements OnInit {
   @Input() event: Event;
 
+  eventTypes = EVENTS_TYPES;
   formulario: FormGroup;
   constructor(
     private modalController: ModalController,
@@ -18,7 +23,6 @@ export class EventFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.event);
     this.buildFrom();
   }
 
@@ -34,20 +38,18 @@ export class EventFormComponent implements OnInit {
     });
   }
 
-  dismiss(event?: IEvent) {
-    this.modalController.dismiss(event);
+  dismiss() {
+    this.modalController.dismiss();
   }
 
   save() {
-    console.log(this.formulario.value);
-    this.dismiss(this.formulario.value);
+    this.modalController.dismiss(this.formulario.value);
   }
 
-  parseDate(date: Date): string{
+  parseDate(date: Date): string {
     return date.toISOString().split('T')[0];
   }
 
-  //TODO: build the form events
   //TODO: fix the CRUD events
   //TODO: fix factorys events
   //TODO: make function for validat no overload events that have the same type

@@ -23,14 +23,14 @@ export class EventsPage implements OnInit {
     private route: ActivatedRoute,
     private modalController: ModalController,
     private router: Router,
-    private alertController: AlertController,
+    private alertController: AlertController
   ) {}
 
   ngOnInit() {
     this.instructorId = this.route.snapshot.paramMap.get('instructorId');
-    if (InstructorsDB.getInstance().instructorExist(this.instructorId)){
+    if (InstructorsDB.getInstance().instructorExist(this.instructorId)) {
       this.eventsDB.getEvents(this.instructorId);
-    }else{
+    } else {
       this.presentAlert();
     }
   }
@@ -65,16 +65,22 @@ export class EventsPage implements OnInit {
     this.eventList.closeSlidingItems();
   }
 
-  async showForm(event: Event = new Event({instructorId:this.instructorId})){
+  async showForm(
+    event: Event = new Event({ instructorId: this.instructorId })
+  ) {
     const modal = await this.modalController.create({
       component: EventFormComponent,
       backdropDismiss: false,
-      componentProps:{
+      componentProps: {
         event,
-      }
+      },
     });
     await modal.present();
-    this.eventList.closeSlidingItems();
+    let eventEdited: Event = (await modal.onDidDismiss()).data;
+    if(eventEdited){
+      eventEdited = new Event(eventEdited);
+      this.eventsDB.setEvent(eventEdited);
+    }
   }
 
   async presentAlert() {
