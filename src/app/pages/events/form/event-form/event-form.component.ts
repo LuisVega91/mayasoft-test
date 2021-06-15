@@ -58,5 +58,4 @@ export class EventFormComponent implements OnInit {
     return date.toISOString().split('T')[0];
   }
 
-  //TODO: fix factorys events
 }
