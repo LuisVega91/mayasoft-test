@@ -16,6 +16,6 @@ export class Time implements ITime {
   }
 
   get toString() {
-    return `${this.hours}:${this.minutes}`;
+    return `${this.hours<10?'0':''}${this.hours}:${this.minutes<10?'0':''}${this.minutes}`;
   }
 }
