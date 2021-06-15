@@ -4,7 +4,7 @@ import { Time } from './Time';
 
 export type EventType = 'theorical' | 'seminar' | 'project';
 
-export const EVENTS_TYPES = ['theorical', 'seminar', 'project'];
+export const EVENTS_TYPES: EventType[] = ['theorical', 'seminar', 'project'];
 
 
 export interface IEvent {
