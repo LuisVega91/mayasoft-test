@@ -62,8 +62,7 @@ export class EventsDB {
             eventModel.start.toMinutes > el.end.toMinutes &&
             eventModel.end.toMinutes > el.end.toMinutes
           ))
-      )
-      ;
+      );
     return this.overloadsEvents;
   }
 
@@ -85,3 +84,5 @@ export class EventsDB {
     localStorage.setItem('events', JSON.stringify(this.events));
   }
 }
+
+

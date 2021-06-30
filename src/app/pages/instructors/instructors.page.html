@@ -7,8 +7,21 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-item *ngFor="let instructor of instructorsDB.getInstructors()" lines="none">
+  <ion-list #instructorList>
+
+    <ion-item-sliding *ngFor="let instructor of instructorsDB.getInstructors()">
+
+
+      <ion-item-options side="start">
+        <ion-item-option (click)="editInstructors(instructor)" color="success">
+          <ion-icon slot="icon-only" name="pencil"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+
+
+
+
+    <ion-item  lines="none">
       <div class="w-100">
         <ion-card routerLink="/events/{{ instructor.id }}" class="my-10 mx-4">
           <ion-card-header>
@@ -25,15 +38,22 @@
         </ion-card>
       </div>
     </ion-item>
+
+    <ion-item-options side="end">
+      <ion-item-option (click)="deleteInstructor(instructor)" color="danger">
+        <ion-icon slot="icon-only" name="trash-bin"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
 
-
-  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="handleClick()">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addInstructor()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-  </ion-fab> -->
+  </ion-fab>
+
 
 </ion-content>
 
